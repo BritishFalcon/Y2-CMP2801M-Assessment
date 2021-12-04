@@ -4,6 +4,7 @@ Driver program for "LincBank" Assessment Item 1
 Semester A 2021
 
 Written by James Brown (jamesbrown@lincoln.ac.uk)
+Modified for submission by Benjamin Griffiths (25199556@students.lincoln.ac.uk)
 
 During marking, we will use the exact same notation
 as provided in the brief, so make sure you follow that guideline.
@@ -12,16 +13,28 @@ You should avoid removing parts of this driver program, but
 add to it the necessary code to produce your implementation.
 
 Good luck!
+
+GitHub Repo - https://github.com/BritishFalcon/Y2-CMP2801M-Assessment
 ------------------------------------------------------ */
+
 #define _CRT_SECURE_NO_WARNINGS
+
+#include "Account.h"
+
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <ctime>
+#include <string>
+
+using namespace std;
 
 int main()
 {
 	std::vector <std::string> parameters;
 	std::string userCommand;
+
+	std::vector<Account*> accountDatabase;
 	// you may also want to store a collection of opened accounts here
 
 	std::cout << "~~~ Welcome to LincBank! ~~~" << std::endl;
@@ -36,11 +49,11 @@ int main()
 		strcpy(cstr, userCommand.c_str());
 
 		char* token;
-		token = strtok(cstr, " ");
+		token = strtok(cstr, " "); // *** Works like split from Python, splits user's input into individual tokens (each parameter, seperated by space in this case)
 
-		while (token != NULL)
+		while (token != NULL) // *** While loop to take the tokens and turn them into a collection of parameters
 		{
-			parameters.push_back(token);
+			parameters.push_back(token); // *** Push each token into parameters
 			token = strtok(NULL, " ");
 		}
 
@@ -53,8 +66,34 @@ int main()
 		}
 		else if (command.compare("open") == 0)
 		{
+			std::cout << "Open an account?" << endl;
+			std::string accountType = parameters[1];
+			std::string depositParameter = parameters[2];
+
+			Account* newAccount;
+
+			long double initialDeposit = stold(depositParameter);
+
+			if (accountType.compare("1") == 0)
+			{
+				newAccount = new Current(initialDeposit);
+			}
+
+			if (accountType.compare("2") == 0)
+			{
+				newAccount = new Savings(initialDeposit); // Normal Savings (TBC)
+			}
+
+			if (accountType.compare("3") == 0)
+			{
+				newAccount = new Savings(initialDeposit); // ISA Savings (TBC)
+			}
+
+			accountDatabase.push_back(newAccount);
+
 			// allow a user to open an account
 			// e.g., Account* a = new Savings(...);
+
 		}
 		else if (command.compare("view") == 0)
 		{
