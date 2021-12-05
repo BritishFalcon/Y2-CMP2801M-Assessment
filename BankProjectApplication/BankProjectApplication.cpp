@@ -27,8 +27,6 @@ GitHub Repo - https://github.com/BritishFalcon/Y2-CMP2801M-Assessment
 #include <ctime>
 #include <string>
 
-using namespace std;
-
 int main()
 {
 	std::vector <std::string> parameters;
@@ -39,8 +37,11 @@ int main()
 
 	std::cout << "~~~ Welcome to LincBank! ~~~" << std::endl;
 
+	std::cout << "TEST" << std::endl;
+
 	while (userCommand != "exit")
 	{
+		std::cout << "New while" << std::endl;
 		parameters.clear(); // clear ready for next command
 		std::cout << std::endl << ">>> ";
 
@@ -55,10 +56,12 @@ int main()
 		{
 			parameters.push_back(token); // *** Push each token into parameters
 			token = strtok(NULL, " ");
+			std::cout << "Looping" << std::endl;
 		}
 
 		// Define all commands as per the brief
 		std::string command = parameters[0];
+		std::cout << "Comparing... " << command.compare("open") << std::endl;
 
 		if (command.compare("options") == 0)
 		{
@@ -66,7 +69,7 @@ int main()
 		}
 		else if (command.compare("open") == 0)
 		{
-			std::cout << "Open an account?" << endl;
+			std::cout << "Open an account?" << std::endl;
 			std::string accountType = parameters[1];
 			std::string depositParameter = parameters[2];
 
@@ -79,6 +82,7 @@ int main()
 				newAccount = new Current(initialDeposit);
 			}
 
+			/*
 			if (accountType.compare("2") == 0)
 			{
 				newAccount = new Savings(initialDeposit); // Normal Savings (TBC)
@@ -88,6 +92,7 @@ int main()
 			{
 				newAccount = new Savings(initialDeposit); // ISA Savings (TBC)
 			}
+			*/
 
 			accountDatabase.push_back(newAccount);
 
@@ -127,6 +132,8 @@ int main()
 
 	std::cout << "Press any key to quit...";
 	std::getchar();
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

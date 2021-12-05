@@ -1,68 +1,64 @@
+#include <string>
+#include <ctime>
+#include <iostream>
+
 class Account
 {
+
 public:
 
-	void deposit(long double)
-	{
+	void deposit();
 
-	}
+	void withdraw();
 
-	void withdraw(long double)
-	{
+	string toString();
 
-	}
-
-	string toString()
-	{
-
-	}
 
 protected:
 
-	Account(long double startBalance)
-	{
-		balance = startBalance;
-	}
+	Account(long double startBalance);
 
-	long double balance; // Using long double to store currency with high accuracy to avoid rounding issues (particularly once applying interest)
+	long double balance;
 
-	//vector<Transaction> history;
 };
+
 
 class Transaction
 {
+
 public:
-	string toString()
-	{
-		return to_string(value);
-	}
-private:
-	string desc;
-	tm timestamp;
-	long double value;
+
+	string toString();
+
+	Transaction(long double transValue, tm transTimestamp, string transDescription);
+
 };
+
 
 class InterestEarning
 {
-public:
-	InterestEarning(long double newInterestRate)
-	{
-		interestRate = newInterestRate;
-	}
-private:
-	long double interestRate; // Using long double in order to maintain native multiplication with balance from Account (as well as ensuring calculations are performed with maximum precision)
+
+protected:
+
+	InterestEarning(long double newInterestRate);
+	long double interestRate;
+
 };
 
 class Current : public Account
 {
+
 public:
-	Current(long double startBalance) : Account(startBalance)
-	{
-		cout << "Current account created!" << endl;
-	}
+
+	Current(long double startBalance);
+
 };
 
 class Savings : public Account, public InterestEarning
 {
+
+public:
+
+	Savings(bool isISA, long double startBalance);
 
 };
