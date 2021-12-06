@@ -50,14 +50,9 @@ private:
 class InterestEarning
 {
 protected:
-	InterestEarning()
-	{
-		std::cout << "InterestEARNING Made" << std::endl;
-	}
-	InterestEarning(long double newInterestRate)
-	{
-		interestRate = newInterestRate;
-	}
+
+	InterestEarning(long double);
+
 	long double interestRate;  // Using long double in order to maintain native multiplication with balance from Account (as well as ensuring calculations are performed with maximum precision)
 };
 

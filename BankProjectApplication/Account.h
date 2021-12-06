@@ -7,58 +7,17 @@ class Account
 
 public:
 
-	void deposit();
+	virtual void deposit(long double);
 
-	void withdraw();
+	virtual void withdraw(long double);
 
-	string toString();
+	virtual string toString();
 
 
 protected:
 
 	Account(long double startBalance);
 
-	long double balance;
-
-};
-
-
-class Transaction
-{
-
-public:
-
-	string toString();
-
-	Transaction(long double transValue, tm transTimestamp, string transDescription);
-
-};
-
-
-class InterestEarning
-{
-
-protected:
-
-	InterestEarning(long double newInterestRate);
-	long double interestRate;
-
-};
-
-class Current : public Account
-{
-
-public:
-
-	Current(long double startBalance);
-
-};
-
-class Savings : public Account, public InterestEarning
-{
-
-public:
-
-	Savings(bool isISA, long double startBalance);
+	long double balance; // Using long double to store currency with high accuracy to avoid rounding issues (particularly once applying interest)
 
 };

@@ -5,4 +5,17 @@ Account::Account(long double startBalance)
 	balance = startBalance;
 }
 
-Account::
+void Account::deposit(long double depositAmount)
+{
+	balance += depositAmount;
+}
+
+void Account::withdraw(long double withdrawAmount)
+{
+	balance -= withdrawAmount;
+}
+
+string Account::toString()
+{
+	// Unfinished
+}
