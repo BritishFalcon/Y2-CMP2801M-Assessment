@@ -18,5 +18,4 @@ void Account::withdraw(long double withdrawAmount)
 std::string Account::toString()
 {
 	// Unfinished
-	return "PLACEHOLDER";
 }

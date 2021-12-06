@@ -38,8 +38,11 @@ int main()
 
 	std::cout << "~~~ Welcome to LincBank! ~~~" << std::endl;
 
+	std::cout << "TEST" << std::endl;
+
 	while (userCommand != "exit")
 	{
+		std::cout << "New while" << std::endl;
 		parameters.clear(); // clear ready for next command
 		std::cout << std::endl << ">>> ";
 
@@ -54,10 +57,12 @@ int main()
 		{
 			parameters.push_back(token); // *** Push each token into parameters
 			token = strtok(NULL, " ");
+			std::cout << "Looping" << std::endl;
 		}
 
 		// Define all commands as per the brief
 		std::string command = parameters[0];
+		std::cout << "Comparing... " << command.compare("open") << std::endl;
 
 		if (command.compare("options") == 0)
 		{
