@@ -8,4 +8,5 @@ Transaction::Transaction(long double transValue, tm transTimestamp, std::string 
 std::string Transaction::toString()
 {
 	// Unfinished
+	return "PLACEHOLDER";
 }
