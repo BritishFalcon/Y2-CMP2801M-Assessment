@@ -1,11 +1,11 @@
 #include "Transaction.h"
 
-Transaction::Transaction(long double transValue, tm transTimestamp, string transDescription)
+Transaction::Transaction(long double transValue, tm transTimestamp, std::string transDescription)
 {
 	// Unfinished
 }
 
-string Transaction::toString()
+std::string Transaction::toString()
 {
 	// Unfinished
 }

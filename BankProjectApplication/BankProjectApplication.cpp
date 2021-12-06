@@ -19,7 +19,8 @@ GitHub Repo - https://github.com/BritishFalcon/Y2-CMP2801M-Assessment
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include "Account.h"
+#include "Current.h"
+#include "Savings.h"
 
 #include <iostream>
 #include <sstream>

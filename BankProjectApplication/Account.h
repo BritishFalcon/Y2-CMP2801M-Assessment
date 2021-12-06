@@ -1,3 +1,10 @@
+#pragma once
+
+#ifndef ACCOUNT_H
+#define ACCOUNT_H
+
+#include "Transaction.h"
+
 #include <string>
 #include <ctime>
 #include <iostream>
@@ -11,7 +18,7 @@ public:
 
 	virtual void withdraw(long double);
 
-	virtual string toString();
+	virtual std::string toString();
 
 
 protected:
@@ -21,3 +28,5 @@ protected:
 	long double balance; // Using long double to store currency with high accuracy to avoid rounding issues (particularly once applying interest)
 
 };
+
+#endif

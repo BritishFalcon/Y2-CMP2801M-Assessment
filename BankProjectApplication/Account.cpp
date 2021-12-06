@@ -15,7 +15,7 @@ void Account::withdraw(long double withdrawAmount)
 	balance -= withdrawAmount;
 }
 
-string Account::toString()
+std::string Account::toString()
 {
 	// Unfinished
 }

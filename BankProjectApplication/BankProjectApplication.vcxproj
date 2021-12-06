@@ -139,7 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Account.cpp" />
     <ClCompile Include="BankProjectApplication.cpp" />
+    <ClCompile Include="Current.cpp" />
+    <ClCompile Include="InterestEarning.cpp" />
+    <ClCompile Include="Savings.cpp" />
+    <ClCompile Include="Transaction.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Account.h" />
+    <ClInclude Include="Current.h" />
+    <ClInclude Include="InterestEarning.h" />
+    <ClInclude Include="Savings.h" />
+    <ClInclude Include="Transaction.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

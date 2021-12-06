@@ -1,5 +1,4 @@
 #include "Current.h"
-#include "Account.h"
 
 Current::Current(long double startBalance) : Account(startBalance)
 {

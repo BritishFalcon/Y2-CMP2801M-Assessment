@@ -1,10 +1,20 @@
+#pragma once
+
+#ifndef TRANSACTION_H
+#define TRANSACTION_H
+
+#include <string>
+#include <ctime>
+
 class Transaction
 {
 
 public:
 
-	string toString();
+	std::string toString();
 
-	Transaction(long double, tm, string);
+	Transaction(long double, tm, std::string);
 
 };
+
+#endif
