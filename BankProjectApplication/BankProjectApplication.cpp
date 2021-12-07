@@ -21,6 +21,7 @@ GitHub Repo - https://github.com/BritishFalcon/Y2-CMP2801M-Assessment
 
 #include "Current.h"
 #include "Savings.h"
+#include "SourceFunctions.h"
 
 #include <iostream>
 #include <sstream>
@@ -34,15 +35,15 @@ int main()
 	std::string userCommand;
 
 	std::vector<Account*> accountDatabase;
+	Account* selectedAccount = nullptr;
 	// you may also want to store a collection of opened accounts here
 
 	std::cout << "~~~ Welcome to LincBank! ~~~" << std::endl;
 
-	std::cout << "TEST" << std::endl;
+	showOptions();
 
 	while (userCommand != "exit")
 	{
-		std::cout << "New while" << std::endl;
 		parameters.clear(); // clear ready for next command
 		std::cout << std::endl << ">>> ";
 
@@ -57,30 +58,25 @@ int main()
 		{
 			parameters.push_back(token); // *** Push each token into parameters
 			token = strtok(NULL, " ");
-			std::cout << "Looping" << std::endl;
 		}
 
 		// Define all commands as per the brief
 		std::string command = parameters[0];
-		std::cout << "Comparing... " << command.compare("open") << std::endl;
 
 		if (command.compare("options") == 0)
 		{
-			// display the various commands to the user
+			showOptions(); // Using a function to prevent code repeating from initial printing of options
 		}
 		else if (command.compare("open") == 0)
 		{
-			std::cout << "Open an account?" << std::endl;
 			std::string accountType = parameters[1];
 			std::string depositParameter = parameters[2];
-
-			Account* newAccount;
 
 			long double initialDeposit = stold(depositParameter);
 
 			if (accountType.compare("1") == 0)
 			{
-				newAccount = new Current(initialDeposit);
+				selectedAccount = new Current(initialDeposit);
 			}
 
 			/*
@@ -95,23 +91,29 @@ int main()
 			}
 			*/
 
-			accountDatabase.push_back(newAccount);
-
-			// allow a user to open an account
-			// e.g., Account* a = new Savings(...);
-
+			accountDatabase.push_back(selectedAccount);
 		}
 		else if (command.compare("view") == 0)
 		{
+			std::string indexStr = parameters[1];
+			int indexInt = std::stoi(indexStr);
+
+			selectedAccount = accountDatabase[indexInt];
+			std::cout << selectedAccount->toString();
+			
 			// display an account according to an index (starting from 1)
 			// alternatively, display all accounts if no index is provided
 		}
 		else if (command.compare("withdraw") == 0)
 		{
+			std::string withdrawAmount = parameters[1];
+			selectedAccount->withdraw(withdrawAmount);
 			// allow user to withdraw funds from an account
 		}
 		else if (command.compare("deposit") == 0)
 		{
+			std::string depositAmount = parameters[1];
+			selectedAccount->deposit(depositAmount);
 			// allow user to deposit funds into an account
 		}
 		else if (command.compare("transfer") == 0)

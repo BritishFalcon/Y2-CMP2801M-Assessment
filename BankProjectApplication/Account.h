@@ -15,8 +15,10 @@ class Account
 public:
 
 	virtual void deposit(long double);
+	virtual void deposit(std::string);
 
 	virtual void withdraw(long double);
+	virtual void withdraw(std::string);
 
 	virtual std::string toString();
 

@@ -12,6 +12,8 @@ public:
 
 	Current(long double startBalance);
 
+	std::string toString();
+
 };
 
 #endif
