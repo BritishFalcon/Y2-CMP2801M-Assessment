@@ -36,6 +36,9 @@ int main()
 
 	std::vector<Account*> accountDatabase;
 	Account* selectedAccount = nullptr;
+
+	time_t rawTime;
+	struct tm* myTime;
 	// you may also want to store a collection of opened accounts here
 
 	std::cout << "~~~ Welcome to LincBank! ~~~" << std::endl;
@@ -99,7 +102,7 @@ int main()
 			int indexInt = std::stoi(indexStr);
 
 			selectedAccount = accountDatabase[indexInt];
-			std::cout << selectedAccount->toString();
+			selectedAccount->toConsole();
 			
 			// display an account according to an index (starting from 1)
 			// alternatively, display all accounts if no index is provided
@@ -118,6 +121,24 @@ int main()
 		}
 		else if (command.compare("transfer") == 0)
 		{
+			std::string sourceAccountStr = parameters[1];
+			std::string destinationAccountStr = parameters[2];
+			std::string transferStr = parameters[3];
+
+			int sourceAccountInt = std::stoi(sourceAccountStr);
+			int destinationAccountInt = std::stoi(destinationAccountStr);
+
+			long double transferDbl = stold(transferStr);
+
+			selectedAccount = accountDatabase[sourceAccountInt];
+
+			selectedAccount->withdraw(transferDbl);
+
+			selectedAccount = accountDatabase[destinationAccountInt];
+
+			selectedAccount->deposit(transferDbl);
+
+			std::cout << "Transfer successful!" << std::endl;
 			// allow user to transfer funds between accounts
 			// i.e., a withdrawal followed by a deposit!
 		}
