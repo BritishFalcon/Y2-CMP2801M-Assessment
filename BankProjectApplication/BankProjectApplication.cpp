@@ -82,12 +82,13 @@ int main()
 				selectedAccount = new Current(initialDeposit);
 			}
 
-			/*
+			
 			if (accountType.compare("2") == 0)
 			{
-				newAccount = new Savings(initialDeposit); // Normal Savings (TBC)
+				selectedAccount = new Savings(0, initialDeposit); // Normal Savings (TBC)
 			}
 
+			/*
 			if (accountType.compare("3") == 0)
 			{
 				newAccount = new Savings(initialDeposit); // ISA Savings (TBC)
@@ -144,6 +145,10 @@ int main()
 		}
 		else if (command.compare("project") == 0)
 		{
+			std::string yearsStr = parameters[1];
+			long double yearsDbl = std::stold(yearsStr);
+
+			long double projectedBalance = selectedAccount.computeInterest(yearsDbl);
 			// compute compound interest t years into the future
 		}
 		//else if (command.compare("search"))

@@ -13,3 +13,25 @@ void showOptions()
 		<< "options: view these options again" << std::endl
 	;
 }
+
+std::string CurrencyDblToStr(long double givenDbl, int precision)
+{
+	std::ostringstream returnStream;
+	returnStream << std::fixed;
+	returnStream.precision(precision);
+	returnStream << givenDbl;
+
+	return returnStream.str();
+}
+
+std::string CurrencyDblToStr(long double givenDbl)
+{
+	if (fmod(givenDbl, 1.00) == 0)
+	{
+		return CurrencyDblToStr(givenDbl, 0);
+	}
+	else
+	{
+		return CurrencyDblToStr(givenDbl, 2);
+	}
+}

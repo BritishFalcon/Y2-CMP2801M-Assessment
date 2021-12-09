@@ -5,9 +5,11 @@
 
 #pragma warning(disable:4996)
 
+#include "SourceFunctions.h"
 #include <string>
 #include <ctime>
 #include <iostream>
+#include <sstream>
 
 class Transaction
 {

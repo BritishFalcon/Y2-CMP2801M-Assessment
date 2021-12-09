@@ -14,6 +14,8 @@ void Account::deposit(long double depositAmount)
 
 	Transaction newTransaction(depositAmount, "deposit");
 	history.push_back(newTransaction);
+
+	toConsole();
 }
 
 void Account::deposit(std::string depositAmount)
@@ -23,6 +25,8 @@ void Account::deposit(std::string depositAmount)
 
 	Transaction newTransaction(deposit, "deposit");
 	history.push_back(newTransaction);
+
+	toConsole();
 }
 
 void Account::withdraw(long double withdrawAmount)
@@ -31,6 +35,8 @@ void Account::withdraw(long double withdrawAmount)
 
 	Transaction newTransaction(withdrawAmount, "withdrawal");
 	history.push_back(newTransaction);
+
+	toConsole();
 }
 
 void Account::withdraw(std::string withdrawAmount)
@@ -40,16 +46,18 @@ void Account::withdraw(std::string withdrawAmount)
 
 	Transaction newTransaction(withdraw, "withdrawal");
 	history.push_back(newTransaction);
+
+	toConsole();
 }
 
 std::string Account::toString() 
 {
-	return type + " | Balance: \x9C" + std::to_string(balance);
+	return type + " | Balance: \x9C" + CurrencyDblToStr(balance);
 }
 
 void Account::toConsole()
 {
-	std::cout << type << " | Balance: \x9C" << std::to_string(balance) << std::endl;
+	std::cout << type << " | Balance: \x9C" << CurrencyDblToStr(balance) << std::endl;
 	for (Transaction selectedTransaction : history)
 	{
 		std::cout << selectedTransaction.toString();

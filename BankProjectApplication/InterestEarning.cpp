@@ -1,7 +1,9 @@
 #include "InterestEarning.h"
 
-InterestEarning::InterestEarning(long double newInterestRate)
+InterestEarning::InterestEarning() {}
+
+long double InterestEarning::computeInterest(long double start, long double years)
 {
-	std::cout << "Interest Earning Made" << std::endl;
-	interestRate = newInterestRate;
+	long double interestMonth = start * (1.00 + (interestRate / 12));
+	return pow(interestMonth, years*12);
 }
