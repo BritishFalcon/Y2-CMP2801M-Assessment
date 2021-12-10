@@ -16,11 +16,15 @@ class Account
 
 public:
 
-	virtual void deposit(long double);
-	virtual void deposit(std::string);
+	virtual void deposit(long double depositSum, std::string depositDescription);
+	virtual void deposit(std::string depositSum, std::string depositDescription);
+	//virtual void deposit(long double depositSum);
+	//virtual void deposit(std::string depositSum);
 
-	virtual void withdraw(long double);
-	virtual void withdraw(std::string);
+	virtual void withdraw(long double withdrawSum, std::string withdrawDescription);
+	virtual void withdraw(std::string withdrawSum, std::string withdrawDescription);
+	//virtual void withdraw(long double withdrawSum);
+	//virtual void withdraw(std::string withdrawSum);
 
 	virtual std::string toString();
 	virtual void toConsole();
@@ -35,6 +39,8 @@ protected:
 	std::vector<Transaction> history;
 
 	std::string type;
+
+	virtual void generateTransaction(long double transactionSum, std::string transactionDescription);
 };
 
 #endif

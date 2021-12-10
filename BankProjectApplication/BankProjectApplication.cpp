@@ -36,6 +36,7 @@ int main()
 
 	std::vector<Account*> accountDatabase;
 	Account* selectedAccount = nullptr;
+	Savings* selectedSaving = nullptr;
 
 	time_t rawTime;
 	struct tm* myTime;
@@ -85,25 +86,35 @@ int main()
 			
 			if (accountType.compare("2") == 0)
 			{
-				selectedAccount = new Savings(0, initialDeposit); // Normal Savings (TBC)
+				selectedAccount = new Savings(0, initialDeposit);
 			}
 
-			/*
+			
 			if (accountType.compare("3") == 0)
 			{
-				newAccount = new Savings(initialDeposit); // ISA Savings (TBC)
+				selectedAccount = new Savings(1, initialDeposit);
 			}
-			*/
+			
 
 			accountDatabase.push_back(selectedAccount);
 		}
 		else if (command.compare("view") == 0)
 		{
-			std::string indexStr = parameters[1];
-			int indexInt = std::stoi(indexStr);
+			if (parameters.size() == 1)
+			{
+				for (Account* eachAccount : accountDatabase)
+				{
+					eachAccount->toConsole();
+				}
+			}
+			else
+			{
+				std::string indexStr = parameters[1];
+				int indexInt = std::stoi(indexStr) - 1;
+				selectedAccount = accountDatabase[indexInt];
 
-			selectedAccount = accountDatabase[indexInt];
-			selectedAccount->toConsole();
+				selectedAccount->toConsole();
+			}
 			
 			// display an account according to an index (starting from 1)
 			// alternatively, display all accounts if no index is provided
@@ -111,13 +122,15 @@ int main()
 		else if (command.compare("withdraw") == 0)
 		{
 			std::string withdrawAmount = parameters[1];
-			selectedAccount->withdraw(withdrawAmount);
+			selectedAccount->withdraw(withdrawAmount, "withdraw");
+			selectedAccount->toConsole();
 			// allow user to withdraw funds from an account
 		}
 		else if (command.compare("deposit") == 0)
 		{
 			std::string depositAmount = parameters[1];
-			selectedAccount->deposit(depositAmount);
+			selectedAccount->deposit(depositAmount, "deposit");
+			selectedAccount->toConsole();
 			// allow user to deposit funds into an account
 		}
 		else if (command.compare("transfer") == 0)
@@ -126,20 +139,23 @@ int main()
 			std::string destinationAccountStr = parameters[2];
 			std::string transferStr = parameters[3];
 
-			int sourceAccountInt = std::stoi(sourceAccountStr);
-			int destinationAccountInt = std::stoi(destinationAccountStr);
+			int sourceAccountInt = std::stoi(sourceAccountStr) - 1;
+			int destinationAccountInt = std::stoi(destinationAccountStr) - 1;
 
 			long double transferDbl = stold(transferStr);
 
 			selectedAccount = accountDatabase[sourceAccountInt];
 
-			selectedAccount->withdraw(transferDbl);
+			selectedAccount->withdraw(transferDbl, "transfer");
+			selectedAccount->toConsole();
 
 			selectedAccount = accountDatabase[destinationAccountInt];
 
-			selectedAccount->deposit(transferDbl);
+			selectedAccount->deposit(transferDbl, "transfer");
+			selectedAccount->toConsole();
 
 			std::cout << "Transfer successful!" << std::endl;
+
 			// allow user to transfer funds between accounts
 			// i.e., a withdrawal followed by a deposit!
 		}
@@ -148,7 +164,10 @@ int main()
 			std::string yearsStr = parameters[1];
 			long double yearsDbl = std::stold(yearsStr);
 
-			long double projectedBalance = selectedAccount.computeInterest(yearsDbl);
+
+			selectedSaving = static_cast<Savings*>(selectedAccount);
+			long double projectedBalance = selectedSaving->computeInterest(yearsDbl);
+			std::cout << CurrencyDblToStr(projectedBalance) << std::endl;
 			// compute compound interest t years into the future
 		}
 		//else if (command.compare("search"))

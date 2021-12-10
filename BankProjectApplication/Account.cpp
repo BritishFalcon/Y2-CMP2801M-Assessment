@@ -8,48 +8,44 @@ Account::Account(long double startBalance)
 	history.push_back(newTransaction);
 }
 
-void Account::deposit(long double depositAmount)
+void Account::generateTransaction(long double transactionSum, std::string depositDescription)
+{
+	Transaction newTransaction(transactionSum, depositDescription);
+	history.push_back(newTransaction);
+}
+
+// DEPOSIT
+void Account::deposit(long double depositAmount, std::string depositDescription)
 {
 	balance += depositAmount;
 
-	Transaction newTransaction(depositAmount, "deposit");
+	Transaction newTransaction(depositAmount, depositDescription);
 	history.push_back(newTransaction);
 
-	toConsole();
 }
 
-void Account::deposit(std::string depositAmount)
+void Account::deposit(std::string depositAmount, std::string depositDescription)
 {
-	long double deposit = std::stold(depositAmount);
-	balance += deposit;
-
-	Transaction newTransaction(deposit, "deposit");
-	history.push_back(newTransaction);
-
-	toConsole();
+	long double makeDouble = std::stold(depositAmount);
+	withdraw(makeDouble, depositDescription);
 }
 
-void Account::withdraw(long double withdrawAmount)
+// WITHDRAW
+void Account::withdraw(long double withdrawAmount, std::string withdrawDescription)
 {
 	balance -= withdrawAmount;
 
-	Transaction newTransaction(withdrawAmount, "withdrawal");
+	Transaction newTransaction(-withdrawAmount, withdrawDescription);
 	history.push_back(newTransaction);
-
-	toConsole();
 }
 
-void Account::withdraw(std::string withdrawAmount)
+void Account::withdraw(std::string withdrawAmount, std::string withdrawDescription)
 {
-	long double withdraw = std::stold(withdrawAmount);
-	balance -= withdraw;
-
-	Transaction newTransaction(withdraw, "withdrawal");
-	history.push_back(newTransaction);
-
-	toConsole();
+	long double makeDouble = std::stold(withdrawAmount);
+	withdraw(makeDouble, withdrawDescription);
 }
 
+// ADDITIONAL FUNCTIONS
 std::string Account::toString() 
 {
 	return type + " | Balance: \x9C" + CurrencyDblToStr(balance);
