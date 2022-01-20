@@ -15,21 +15,17 @@ class Account
 {
 
 public:
-
+	// All pure virtual functions
 	virtual void deposit(long double depositSum, std::string depositDescription);
-	virtual void deposit(std::string depositSum, std::string depositDescription);
-	//virtual void deposit(long double depositSum);
-	//virtual void deposit(std::string depositSum);
+	virtual void deposit(std::string depositSum, std::string depositDescription); // Allow automatic conversion to long double
 
 	virtual void withdraw(long double withdrawSum, std::string withdrawDescription);
-	virtual void withdraw(std::string withdrawSum, std::string withdrawDescription);
-	//virtual void withdraw(long double withdrawSum);
-	//virtual void withdraw(std::string withdrawSum);
+	virtual void withdraw(std::string withdrawSum, std::string withdrawDescription); // Allow automatic conversion to long double
 
 	virtual std::string toString();
-	virtual void toConsole();
+	virtual void toConsole(); // For printing all account information; used a number of times
 	virtual std::string getType();
-	virtual std::vector<Transaction> searchTransaction(long double searchParameter);
+	virtual std::vector<Transaction> searchTransaction(long double searchParameter); // Used for search
 
 protected:
 
@@ -42,6 +38,8 @@ protected:
 	std::string type;
 
 	virtual void generateTransaction(long double transactionSum, std::string transactionDescription);
+
+	// Nothing here is private as this is purely a base class
 };
 
 #endif
