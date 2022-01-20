@@ -15,3 +15,8 @@ std::string Transaction::toString()
 	return +"--" + desc + ": \x9C" + CurrencyDblToStr(value, 2) + " on " + asctime(timestamp); 
 	// Uses a fixed precision of 2 to remain compliant with sample execution which includes pence even if transaction value ends in .00 (unlike on account balance, which didn't show .00 in this case)
 }
+
+long double Transaction::getValue()
+{
+	return value;
+}

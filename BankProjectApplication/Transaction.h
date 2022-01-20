@@ -20,6 +20,8 @@ public:
 
 	Transaction(long double transactionAmount, std::string transactionDescription);
 
+	long double getValue();
+
 private:
 
 	struct tm* timestamp;

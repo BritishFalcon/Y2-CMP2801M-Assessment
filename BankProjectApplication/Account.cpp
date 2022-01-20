@@ -64,3 +64,16 @@ std::string Account::getType()
 {
 	return type;
 }
+
+std::vector<Transaction> Account::searchTransaction(long double searchValue)
+{
+	std::vector<Transaction> resultList;
+	for (Transaction selectedTransaction : history)
+	{
+		if (searchValue == selectedTransaction.getValue())
+		{
+			resultList.push_back(selectedTransaction);
+		}
+	}
+	return resultList;
+}

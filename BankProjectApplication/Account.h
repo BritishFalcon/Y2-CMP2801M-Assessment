@@ -29,7 +29,7 @@ public:
 	virtual std::string toString();
 	virtual void toConsole();
 	virtual std::string getType();
-
+	virtual std::vector<Transaction> searchTransaction(long double searchParameter);
 
 protected:
 

@@ -280,11 +280,25 @@ int main()
 			}
 			// compute compound interest t years into the future
 		}
-		//else if (command.compare("search"))
-		//{
-		//	allow users to search their account history for a transaction
-		//  (this is a stretch task)
-		//}
+		else if (command.compare("search") == 0)
+		{
+			if (parameters.size() == 2)
+			{
+				try
+				{
+					long double searchValue = stold(parameters[1]);
+					std::vector<Transaction> searchResults = selectedAccount->searchTransaction(searchValue);
+					for (Transaction selectedTransaction : searchResults)
+					{
+						std::cout << selectedTransaction.toString();
+					}
+				}
+				catch (...)
+				{
+					std::cout << "Invalid input, try again!" << std::endl;
+				}
+			}
+		}	
 		else
 		{
 			std::cout << "Unknown command, try again" << std::endl;
