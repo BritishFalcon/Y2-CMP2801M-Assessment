@@ -28,6 +28,7 @@ public:
 
 	virtual std::string toString();
 	virtual void toConsole();
+	virtual std::string getType();
 
 
 protected:

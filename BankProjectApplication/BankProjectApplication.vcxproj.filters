@@ -56,5 +56,8 @@
     <ClInclude Include="SourceFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BankProjectApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

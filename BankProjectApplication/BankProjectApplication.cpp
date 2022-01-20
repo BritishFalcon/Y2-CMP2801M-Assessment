@@ -100,20 +100,46 @@ int main()
 		}
 		else if (command.compare("view") == 0)
 		{
-			if (parameters.size() == 1)
+			if (accountDatabase.size() > 0)
 			{
-				for (Account* eachAccount : accountDatabase)
+				if (parameters.size() == 1)
 				{
-					eachAccount->toConsole();
+					for (Account* eachAccount : accountDatabase)
+					{
+						eachAccount->toConsole();
+					}
+				}
+				else if (parameters.size() == 2)
+				{	
+					std::string accountNumber = parameters[1];
+					try
+					{
+						if ((0 < std::stoi(accountNumber)) && (std::stoi(accountNumber) <= accountDatabase.size()))
+						{
+							std::string indexStr = parameters[1];
+							int indexInt = std::stoi(indexStr) - 1;
+							selectedAccount = accountDatabase[indexInt];
+
+							selectedAccount->toConsole();
+						}
+						else
+						{
+							std::cout << "There is no account with this number, try again!" << std::endl;
+						}
+					}
+					catch (...)
+					{
+						std::cout << "Invalid input, try again!" << std::endl;
+					}
+				}
+				else
+				{
+					std::cout << "Wrong number of parameters used, please try again!" << std::endl;
 				}
 			}
 			else
 			{
-				std::string indexStr = parameters[1];
-				int indexInt = std::stoi(indexStr) - 1;
-				selectedAccount = accountDatabase[indexInt];
-
-				selectedAccount->toConsole();
+				std::cout << "There are no accounts to view!" << std::endl;
 			}
 			
 			// display an account according to an index (starting from 1)
@@ -121,53 +147,137 @@ int main()
 		}
 		else if (command.compare("withdraw") == 0)
 		{
-			std::string withdrawAmount = parameters[1];
-			selectedAccount->withdraw(withdrawAmount, "withdraw");
-			selectedAccount->toConsole();
+			try
+			{
+				std::string withdrawAmount = parameters[1];
+				selectedAccount->withdraw(withdrawAmount, "withdraw");
+				selectedAccount->toConsole();
+			}
+			catch (...)
+			{
+				std::cout << "Invalid input, try again!" << std::endl;
+			}
 			// allow user to withdraw funds from an account
 		}
 		else if (command.compare("deposit") == 0)
 		{
-			std::string depositAmount = parameters[1];
-			selectedAccount->deposit(depositAmount, "deposit");
-			selectedAccount->toConsole();
+			try
+			{
+				if (selectedAccount != NULL)
+				{
+					std::string depositAmount = parameters[1];
+					selectedAccount->deposit(depositAmount, "deposit");
+					selectedAccount->toConsole();
+				}
+				else
+				{
+					std::cout << "No account selected! Try again!" << std::endl;
+				}
+			}
+			catch (...)
+			{
+				std::cout << "Invalid input, try again!" << std::endl;
+			}
 			// allow user to deposit funds into an account
 		}
 		else if (command.compare("transfer") == 0)
 		{
-			std::string sourceAccountStr = parameters[1];
-			std::string destinationAccountStr = parameters[2];
-			std::string transferStr = parameters[3];
+			if (accountDatabase.size() > 0)
+			{
+				if (parameters.size() == 4)
+				{
+					try
+					{
+						std::string sourceAccountStr = parameters[1];
+						std::string destinationAccountStr = parameters[2];
+						std::string transferStr = parameters[3];
 
-			int sourceAccountInt = std::stoi(sourceAccountStr) - 1;
-			int destinationAccountInt = std::stoi(destinationAccountStr) - 1;
+						int sourceAccountInt = std::stoi(sourceAccountStr) - 1;
+						int destinationAccountInt = std::stoi(destinationAccountStr) - 1;
 
-			long double transferDbl = stold(transferStr);
+						long double transferDbl = stold(transferStr);
 
-			selectedAccount = accountDatabase[sourceAccountInt];
+						if (sourceAccountStr != destinationAccountStr)
+						{
+							if ((sourceAccountInt >= 0) && (sourceAccountInt <= accountDatabase.size() - 1))
+							{
+								if ((destinationAccountInt >= 0) && (destinationAccountInt <= accountDatabase.size() - 1))
+								{
+									selectedAccount = accountDatabase[sourceAccountInt];
 
-			selectedAccount->withdraw(transferDbl, "transfer");
-			selectedAccount->toConsole();
+									selectedAccount->withdraw(transferDbl, "transfer");
+									selectedAccount->toConsole();
 
-			selectedAccount = accountDatabase[destinationAccountInt];
+									selectedAccount = accountDatabase[destinationAccountInt];
 
-			selectedAccount->deposit(transferDbl, "transfer");
-			selectedAccount->toConsole();
+									selectedAccount->deposit(transferDbl, "transfer");
+									selectedAccount->toConsole();
 
-			std::cout << "Transfer successful!" << std::endl;
+									std::cout << "Transfer successful!" << std::endl;
+								}
+								else
+								{
+									std::cout << "Destination account does not exist, try again!" << std::endl;
+								}
+							}
+							else
+							{
+								std::cout << "Source account does not exist, try again!" << std::endl;
+							}
+						}
+						else
+						{
+							std::cout << "You cannot transfer to and from the same account!" << std::endl;
+						}
+					}
+					catch (std::invalid_argument)
+					{
+						std::cout << "Invalid input, try again!" << std::endl;
+					}
+				}
+				else
+				{
+					std::cout << "Wrong number of parameters used, please try again!" << std::endl;
+				}
+			}
+			else
+			{
+				std::cout << "There are no accounts to transfer to or from!" << std::endl;
+			}
 
 			// allow user to transfer funds between accounts
 			// i.e., a withdrawal followed by a deposit!
 		}
 		else if (command.compare("project") == 0)
 		{
-			std::string yearsStr = parameters[1];
-			long double yearsDbl = std::stold(yearsStr);
+			if (parameters.size() == 2)
+			{
+				if (selectedAccount->getType() != "Current account")
+				{
+					try
+					{
+						std::string yearsStr = parameters[1];
+						long double yearsDbl = std::stold(yearsStr);
 
 
-			selectedSaving = static_cast<Savings*>(selectedAccount);
-			long double projectedBalance = selectedSaving->computeInterest(yearsDbl);
-			std::cout << CurrencyDblToStr(projectedBalance) << std::endl;
+						selectedSaving = static_cast<Savings*>(selectedAccount);
+						long double projectedBalance = selectedSaving->computeInterest(yearsDbl);
+						std::cout << CurrencyDblToStr(projectedBalance) << std::endl;
+					}
+					catch (...)
+					{
+						std::cout << "Invalid input, try again!" << std::endl;
+					}
+				}
+				else
+				{
+					std::cout << "Selected account is not a savings account, please try again!" << std::endl;
+				}
+			}
+			else
+			{
+				std::cout << "Wrong number of parameters used, please try again!" << std::endl;
+			}
 			// compute compound interest t years into the future
 		}
 		//else if (command.compare("search"))
@@ -175,6 +285,10 @@ int main()
 		//	allow users to search their account history for a transaction
 		//  (this is a stretch task)
 		//}
+		else
+		{
+			std::cout << "Unknown command, try again" << std::endl;
+		}
 
 	}
 

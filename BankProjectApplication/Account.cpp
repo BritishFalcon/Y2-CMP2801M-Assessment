@@ -27,7 +27,7 @@ void Account::deposit(long double depositAmount, std::string depositDescription)
 void Account::deposit(std::string depositAmount, std::string depositDescription)
 {
 	long double makeDouble = std::stold(depositAmount);
-	withdraw(makeDouble, depositDescription);
+	deposit(makeDouble, depositDescription);
 }
 
 // WITHDRAW
@@ -58,4 +58,9 @@ void Account::toConsole()
 	{
 		std::cout << selectedTransaction.toString();
 	}
+}
+
+std::string Account::getType()
+{
+	return type;
 }
