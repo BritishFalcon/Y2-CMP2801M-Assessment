@@ -75,31 +75,52 @@ int main()
 		}
 		else if (command.compare("open") == 0)
 		{
-			std::string accountType = parameters[1]; // Parameter 1 (0 defines which command) is the account type; current, saving or ISA
-			std::string depositParameter = parameters[2]; // How much to deposit into, given by the user in the second parameter
-
-			long double initialDeposit = stold(depositParameter); // Convert the deposit to a long double, used here to represent money
-
-			// 1 is a current account
-			if (accountType.compare("1") == 0)
+			try
 			{
-				selectedAccount = new Current(initialDeposit);
-			}
+				std::string accountType = parameters[1]; // Parameter 1 (0 defines which command) is the account type; current, saving or ISA
+				std::string depositParameter = parameters[2]; // How much to deposit into, given by the user in the second parameter
 
-			// 2 is a savings account
-			if (accountType.compare("2") == 0)
+				long double initialDeposit = stold(depositParameter); // Convert the deposit to a long double, used here to represent money
+
+				// 1 is a current account
+				if (initialDeposit >= 0)
+				{
+					if (accountType.compare("1") == 0)
+					{
+						selectedAccount = new Current(initialDeposit);
+						accountDatabase.push_back(selectedAccount); // Once the new account is created, add it to the database
+					}
+
+					// 2 is a savings account
+					if (accountType.compare("2") == 0)
+					{
+						selectedAccount = new Savings(0, initialDeposit);
+						accountDatabase.push_back(selectedAccount); // Once the new account is created, add it to the database
+					}
+
+					// 3 is an ISA account; but this uses class Savings
+					if (accountType.compare("3") == 0)
+					{
+						if (initialDeposit >= 1000)
+						{
+							selectedAccount = new Savings(1, initialDeposit);
+							accountDatabase.push_back(selectedAccount); // Once the new account is created, add it to the database
+						}
+						else
+						{
+							std::cout << "ISA initial balance must be more than 1000 pounds"; // Fulfill the requirement that ISAs start with over £1000
+						}
+					}
+				}
+				else
+				{
+					std::cout << "Initial deposit cannot be a negative number!";
+				}
+			}
+			catch (...)
 			{
-				selectedAccount = new Savings(0, initialDeposit);
+				std::cout << "Invalid input, try again!" << std::endl;
 			}
-
-			// 3 is an ISA account; but this uses class Savings
-			if (accountType.compare("3") == 0)
-			{
-				selectedAccount = new Savings(1, initialDeposit);
-			}
-			
-
-			accountDatabase.push_back(selectedAccount); // Once the new account is created, add it to the database
 		}
 		else if (command.compare("view") == 0) // View/select an account
 		{
@@ -148,10 +169,24 @@ int main()
 		{
 			try
 			{
-				// Withdraw contains type overflow, so we can pass a string directly
-				std::string withdrawAmount = parameters[1];
-				selectedAccount->withdraw(withdrawAmount, "withdraw"); // Withdrawal amount will automatically be considered negative to remove from account
-				selectedAccount->toConsole(); // Output account information and transactions (including this one)
+				// Withdraw contains type overflow, so we can pass a string directly, but to check it against minimum balance first, we'll convert it anyway
+				long double withdrawAmount = std::stold(parameters[1]);
+				if (withdrawAmount > 0)
+				{
+					if (selectedAccount->getBalance() - withdrawAmount >= selectedAccount->getMinBalance())
+					{
+						selectedAccount->withdraw(withdrawAmount, "withdraw"); // Withdrawal amount will automatically be considered negative to remove from account
+						selectedAccount->toConsole(); // Output account information and transactions (including this one)
+					}
+					else
+					{
+						std::cout << "Withdrawal exceeds overdraft limit!" << std::endl;
+					}
+				}
+				else
+				{
+					std::cout << "You cannot withdraw a negative amount or zero!" << std::endl;
+				}
 			}
 			catch (...) // If the withdraw conversion from string to long double fails, it'll throw an error that will end up here
 			{
@@ -165,10 +200,18 @@ int main()
 			{
 				if (selectedAccount != NULL) // An alternative approach to withdraw, rather than checking the database, checking the pointer to see if it's null
 				{
-					// As with withdraw, string input for deposit value is supported
-					std::string depositAmount = parameters[1];
-					selectedAccount->deposit(depositAmount, "deposit");
-					selectedAccount->toConsole(); // Output account information and transactions (including this one)
+
+					// As with withdraw, string input for deposit value is supported but not used here
+					long double depositAmount = std::stold(parameters[1]);
+					if (depositAmount > 0)
+					{
+						selectedAccount->deposit(depositAmount, "deposit");
+						selectedAccount->toConsole(); // Output account information and transactions (including this one)
+					}
+					else
+					{
+						std::cout << "You cannot deposit a negative amount or zero!" << std::endl;
+					}
 				}
 				else
 				{
@@ -205,22 +248,36 @@ int main()
 							{
 								if ((destinationAccountInt >= 0) && (destinationAccountInt <= accountDatabase.size() - 1)) // And the destination account number exists in the database
 								{
-									// Select the first account
-									selectedAccount = accountDatabase[sourceAccountInt];
+									if (transferDbl > 0)
+									{
+										// Select the first account
+										selectedAccount = accountDatabase[sourceAccountInt];
 
-									// Take money from the source account; first part of the transaction
-									selectedAccount->withdraw(transferDbl, "transfer");
-									selectedAccount->toConsole();
+										if (selectedAccount->getBalance() - transferDbl >= selectedAccount->getMinBalance())
+										{
+											// Take money from the source account; first part of the transaction
+											selectedAccount->withdraw(transferDbl, "transfer");
+											selectedAccount->toConsole();
 
-									// Select the second account
-									selectedAccount = accountDatabase[destinationAccountInt];
+											// Select the second account
+											selectedAccount = accountDatabase[destinationAccountInt];
 
-									// Give the same amount of money to the destination account
-									selectedAccount->deposit(transferDbl, "transfer");
-									selectedAccount->toConsole();
+											// Give the same amount of money to the destination account
+											selectedAccount->deposit(transferDbl, "transfer");
+											selectedAccount->toConsole();
 
-									// Assert the transaction was a success to the user
-									std::cout << "Transfer successful!" << std::endl;
+											// Assert the transaction was a success to the user
+											std::cout << "Transfer successful!" << std::endl;
+										}
+										else
+										{
+											std::cout << "Withdrawal exceeds overdraft limit!" << std::endl;
+										}
+									}
+									else
+									{
+										std::cout << "You cannot transfer a negative amount or zero!" << std::endl;
+									}
 								}
 								else
 								{

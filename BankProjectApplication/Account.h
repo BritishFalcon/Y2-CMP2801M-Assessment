@@ -24,7 +24,9 @@ public:
 
 	virtual std::string toString();
 	virtual void toConsole(); // For printing all account information; used a number of times
-	virtual std::string getType();
+	virtual const std::string getType();
+	virtual const long double& getBalance();
+	virtual const long double& getMinBalance();
 	virtual std::vector<Transaction> searchTransaction(long double searchParameter); // Used for search
 
 protected:
@@ -36,6 +38,8 @@ protected:
 	std::vector<Transaction> history;
 
 	std::string type;
+
+	long double minBalance = 0;
 
 	virtual void generateTransaction(long double transactionSum, std::string transactionDescription);
 

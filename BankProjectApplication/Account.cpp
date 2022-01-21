@@ -60,7 +60,7 @@ void Account::toConsole() // Print the full account details
 	}
 }
 
-std::string Account::getType()
+const std::string Account::getType()
 {
 	return type; // Return account type, e.g "Current account"
 }
@@ -77,4 +77,14 @@ std::vector<Transaction> Account::searchTransaction(long double searchValue)
 		}
 	}
 	return resultList; // Return the completed list of matches
+}
+
+const long double& Account::getBalance()
+{
+	return balance;
+}
+
+const long double& Account::getMinBalance()
+{
+	return minBalance;
 }
