@@ -47,7 +47,7 @@ protected:
 
 	virtual void generateTransaction(long double transactionSum, std::string transactionDescription);
 
-	// Nothing here is private as this is purely a base class
+	// Nothing here is private as this is purely an abstract base class
 };
 
 #endif

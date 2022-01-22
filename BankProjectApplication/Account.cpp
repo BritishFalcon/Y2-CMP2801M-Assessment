@@ -70,7 +70,8 @@ std::vector<Transaction> Account::searchTransaction(long double searchValue)
 {
 	std::vector<Transaction> resultList; // Define a list of transactions ready to output any matches
 
-	std::copy_if(history.begin(), history.end(), std::back_inserter(resultList), [searchValue](Transaction &T)
+	// Use a lambda to return results
+	std::copy_if(history.begin(), history.end(), std::back_inserter(resultList), [searchValue](Transaction &T) // Going through the list
 		{
 			return (T.getValue() == searchValue);
 		});

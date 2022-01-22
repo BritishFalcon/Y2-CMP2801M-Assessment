@@ -6,13 +6,13 @@ Savings::Savings(bool isISA, long double startBalance) : Account(startBalance), 
 	{
 		interestRate = 0.0115; // Interest is higher on ISA, but it's otherwise the same
 		type = "ISA";
-		std::cout << "ISA created" << std::endl; // Assert the correct account type has been created
+		std::cout << "ISA created!" << std::endl; // Assert the correct account type has been created
 	}
 	else
 	{
 		interestRate = 0.0085; // Lower interest on savings accounts
 		type = "Saving account";
-		std::cout << "Savings created" << std::endl; // Assert the correct account type has been created
+		std::cout << "Savings created!" << std::endl; // Assert the correct account type has been created
 	}
 }
 
