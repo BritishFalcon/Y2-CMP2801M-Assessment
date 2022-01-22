@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 
 class Account
 {
@@ -24,10 +25,13 @@ public:
 
 	virtual std::string toString();
 	virtual void toConsole(); // For printing all account information; used a number of times
-	virtual const std::string getType();
+	virtual const std::string& getType();
 	virtual const long double& getBalance();
 	virtual const long double& getMinBalance();
 	virtual std::vector<Transaction> searchTransaction(long double searchParameter); // Used for search
+
+	virtual void operator+=(const long double& depositValue);
+	virtual void operator-=(const long double& withdrawalValue);
 
 protected:
 

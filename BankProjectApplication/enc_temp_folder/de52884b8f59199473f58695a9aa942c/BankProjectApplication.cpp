@@ -360,10 +360,6 @@ int main()
 					std::cout << "Invalid input, try again!" << std::endl; // Catch non-compliant user input
 				}
 			}
-			else
-			{
-				std::cout << "Wrong number of parameters used, please try again!" << std::endl;
-			}
 		}	
 		else
 		{

@@ -149,7 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h" />
-    <ClInclude Include="BankProjectApplication.h" />
     <ClInclude Include="Current.h" />
     <ClInclude Include="InterestEarning.h" />
     <ClInclude Include="Savings.h" />

@@ -60,7 +60,7 @@ void Account::toConsole() // Print the full account details
 	}
 }
 
-const std::string Account::getType()
+const std::string& Account::getType()
 {
 	return type; // Return account type, e.g "Current account"
 }
@@ -69,14 +69,13 @@ const std::string Account::getType()
 std::vector<Transaction> Account::searchTransaction(long double searchValue)
 {
 	std::vector<Transaction> resultList; // Define a list of transactions ready to output any matches
-	for (Transaction selectedTransaction : history) // Go through each transaction for checking
-	{
-		if (searchValue == selectedTransaction.getValue()) // If it's a match to the given parameter...
+
+	std::copy_if(history.begin(), history.end(), std::back_inserter(resultList), [searchValue](Transaction &T)
 		{
-			resultList.push_back(selectedTransaction); // Add it to the list of matches
-		}
-	}
-	return resultList; // Return the completed list of matches
+			return (T.getValue() == searchValue);
+		});
+
+	return resultList;
 }
 
 const long double& Account::getBalance()
@@ -87,4 +86,15 @@ const long double& Account::getBalance()
 const long double& Account::getMinBalance()
 {
 	return minBalance;
+}
+
+// Operator Overloading
+void Account::operator+=(const long double& depositValue)
+{
+	deposit(depositValue, "deposit");
+}
+
+void Account::operator-=(const long double& withdrawalValue)
+{
+	withdraw(withdrawalValue, "withdraw");
 }
